@@ -3,8 +3,9 @@ import json
 from typing import Dict
 import platform
 from pyxcursor import Xcursor
-from PIL import Image, ImageGrab
+from PIL import Image
 import ctypes
+import time
 platform_name: str = platform.system()
 
 if platform_name == "Windows":
@@ -34,6 +35,8 @@ def init(folder_name):
 def take_screenshots(action, action_data: Dict):
     global screenshot_counter, last_screenshot, screenshots_folder, actions
     screenshot_counter += 1
+
+    time.sleep(1)
     
     screenshot_after = pyautogui.screenshot()
     screenshot_after = capture_cursor(screenshot_after)

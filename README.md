@@ -3,6 +3,12 @@
 python record.py
 ```
 
+结束时需要回到命令行，按 ctrl+c 杀掉程序
+
+# Note
+
+每次完成动作后，会等待 1 秒再截图
+
 # Action 格式
 
 - `type`: `mouse` or `keyboard`

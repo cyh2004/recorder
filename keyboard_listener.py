@@ -1,6 +1,5 @@
 from pynput import keyboard
 import threading
-import math
 
 import screenshot
 
