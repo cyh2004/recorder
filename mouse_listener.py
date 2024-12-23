@@ -3,6 +3,7 @@ import time
 import threading
 
 import screenshot
+import listener_control
 
 
 scroll_accumulator = {"x": 0, "y": 0, "dx": 0, "dy": 0}
@@ -48,6 +49,12 @@ def check_hover():
         screenshot.take_screenshots(action, action_data)
 
 def on_move(x, y):
+    if not listener_control.started():
+        return
+    if listener_control.ended():
+        return False
+    listener_control.clear_cnt()
+    
     global is_dragging, drag_start, last_move_time, last_position, hover_timer
     
     if hover_timer:
@@ -60,6 +67,12 @@ def on_move(x, y):
     hover_timer.start()
 
 def on_click(x, y, button, pressed):
+    if not listener_control.started():
+        return
+    if listener_control.ended():
+        return False
+    listener_control.clear_cnt()
+
     global is_dragging, drag_start, hover_timer, screen_height, screen_width
     
     if hover_timer:
@@ -149,6 +162,12 @@ def save_scroll():
         scroll_accumulator = {"x": 0, "y": 0, "dx": 0, "dy": 0}
 
 def on_scroll(x, y, dx, dy):
+    if not listener_control.started():
+        return
+    if listener_control.ended():
+        return False
+    listener_control.clear_cnt()
+
     global scroll_accumulator, scroll_timer
     scroll_accumulator["x"] = x
     scroll_accumulator["y"] = y

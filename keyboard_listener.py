@@ -2,6 +2,7 @@ from pynput import keyboard
 import threading
 
 import screenshot
+import listener_control
 
 
 pressed_keys = set()
@@ -28,6 +29,13 @@ def save_text_input():
         text_input = ""
 
 def on_press(key):
+    if not listener_control.started():
+        return
+    if listener_control.ended():
+        return False
+    if not listener_control.is_ctrl(key):
+        listener_control.clear_cnt()
+
     global text_input, text_input_timer, shift_pressed, caps_lock_on, pressed_keys
 
     if key == keyboard.Key.shift:
@@ -126,6 +134,16 @@ def on_press(key):
         pressed_keys.add(actual_key.lower())  
 
 def on_release(key):
+    if not listener_control.is_ctrl(key):
+        listener_control.clear_cnt()
+    else:
+        listener_control.check_ctrl_released(key)
+        return
+
+    if not listener_control.started():
+        return
+    if listener_control.ended():
+        return False
     global shift_pressed, pressed_keys
     
     if key == keyboard.Key.shift:
@@ -136,7 +154,6 @@ def on_release(key):
         pressed_keys.discard(key.name)
     elif isinstance(key, keyboard.KeyCode):
         pressed_keys.discard(key.char.lower())
-
 
 
     # if key == keyboard.Key.esc and keyboard.Key.space and keyboard.Key.altP:
