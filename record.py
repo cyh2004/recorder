@@ -5,6 +5,7 @@ import pyautogui
 import mouse_listener
 import keyboard_listener
 import screenshot
+import bbox
 
 
 def create_new_screenshots_folder():
@@ -14,7 +15,6 @@ def create_new_screenshots_folder():
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:19]  
     folder_name = f"screenshots/run_{timestamp}"
     
-    
     while os.path.exists(folder_name):
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")[:19]
         folder_name = f"screenshots/run_{timestamp}"
@@ -22,9 +22,10 @@ def create_new_screenshots_folder():
     os.makedirs(folder_name)
     print(f"New screenshots folder created: {folder_name}")
     screenshot.init(folder_name)
+    return folder_name
 
 def main():
-    create_new_screenshots_folder()
+    folder = create_new_screenshots_folder()
 
     # 获取屏幕大小
     width, height = pyautogui.size()
@@ -40,6 +41,8 @@ def main():
 
     m_listener.join()
     k_listener.join()
+
+    bbox.add_bbox(folder)
 
 if __name__ == '__main__':
     main()

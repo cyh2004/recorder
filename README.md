@@ -5,6 +5,13 @@ python record.py
 
 运行程序后，**连续**按两下‘ctrl’键可开始录制轨迹；再次连续按下两次‘ctrl’键后，任意按下一个键并移动一下鼠标即可退出录制（是为了给键鼠的 listener 分别发送信号）
 
+退出录制后，会遍历录制下来的轨迹，挑出其中的 click 和 hover 动作，要求用户标记 bounding box
+
+具体过程为：
+- 弹出进行 click 动作之前的截图，将 click 的位置用绿色小方框标出，截图会自动全屏
+- 监听用户的两次鼠标点击事件，用户需要点两次鼠标，标记 bounding box 左上角和右下角的坐标
+- 将用户标出的 bbox 用绿色方框标出，展示，并询问用户是否要重新标记
+
 # Note
 
 每次完成动作后，会等待 1 秒再截图
@@ -25,6 +32,10 @@ python record.py
 - `point`: { `x`: 1000, `y`: 500, `relative_x`: 0.5, `relative_y`: 0.3} 
     - `click` 和 `hover` 拥有此项
     - 以像素为单位，屏幕左上角为原点，向右为 x 轴，向下为 y 轴
+- `bbox`: { `absolute`: \[x1, y1, x2, y2\], `relative`: \[x1, y1, x2, y2\]}
+    - `click` 和 `hover` 拥有此项
+    - 以像素为单位，屏幕左上角为原点，向右为 x 轴，向下为 y 轴
+    - 记录了 bounding box 左上角和右下角的坐标
 - `point_from`: { `x`: 1000, `y`: 500, `relative_x`: 0.5, `relative_y`: 0.3} 
     - `drag` 拥有此项
 - `point_to`: { `x`: 1000, `y`: 500, `relative_x`: 0.5, `relative_y`: 0.3} 
