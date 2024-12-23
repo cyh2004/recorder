@@ -1,6 +1,7 @@
 import os
 from datetime import datetime
 import pyautogui
+import argparse
 
 import mouse_listener
 import keyboard_listener
@@ -25,6 +26,11 @@ def create_new_screenshots_folder():
     return folder_name
 
 def main():
+    args = argparse.ArgumentParser(description="Record user actions")
+    args.add_argument("--bbox", action="store_true", help="Add bounding box to the actions")
+    args = args.parse_args()
+    
+
     folder = create_new_screenshots_folder()
 
     # 获取屏幕大小
@@ -42,7 +48,8 @@ def main():
     m_listener.join()
     k_listener.join()
 
-    bbox.add_bbox(folder)
+    if args.bbox:
+        bbox.add_bbox(folder)
 
 if __name__ == '__main__':
     main()

@@ -1,6 +1,8 @@
 # Usage
 ```python
-python record.py
+python record.py [--bbox]
+
+--bbox: 是否进行 bounding box 的标记
 ```
 
 运行程序后，**连续**按两下‘ctrl’键可开始录制轨迹；再次连续按下两次‘ctrl’键后，任意按下一个键并移动一下鼠标即可退出录制（是为了给键鼠的 listener 分别发送信号）
